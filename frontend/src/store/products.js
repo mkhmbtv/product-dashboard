@@ -1,9 +1,9 @@
 const ADD_PRODUCTS = 'products/ADD_PRODUCTS';
 
-const addProducts = (products) => {
+const addProducts = (payload) => {
   return {
     type: ADD_PRODUCTS,
-    products,
+    payload,
   }
 };
 
@@ -17,7 +17,7 @@ const productReducer = (state = {}, action) => {
   const newState = {};
   switch (action.type) {
     case ADD_PRODUCTS:
-      action.products.forEach(product => {
+      action.payload.forEach(product => {
         newState[product.id] = product;
       });
       return newState;
