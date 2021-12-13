@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import productReducer from './products';
 
 const rootReducer = combineReducers({
-  // add reducer functions here
+  product: productReducer,
 });
 
 let enhancer;
