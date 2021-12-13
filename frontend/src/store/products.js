@@ -1,5 +1,6 @@
 const ADD_PRODUCTS = 'products/ADD_PRODUCTS';
 const ADD_ONE_PRODUCT = 'products/ADD_ONE_PRODUCT';
+const REMOVE_ONE_PRODUCT = 'products/REMOVE_ONE_PRODUCT';
 
 const addProducts = (payload) => {
   return {
@@ -13,7 +14,15 @@ const addOneProduct = (payload) => {
     type: ADD_ONE_PRODUCT,
     payload
   }
+};
+
+const removeProduct = (id) => {
+  return {
+    type: REMOVE_ONE_PRODUCT,
+    id
+  }
 }
+
 
 export const getAllProducts = () => async (dispatch) => {
   const res = await fetch('/api/products');
@@ -35,6 +44,12 @@ export const addProduct = (product) => async (dispatch) => {
   }
 };
 
+export const deleteProduct = (id) => async (dispatch) => {
+  const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+
+  if (res.ok) dispatch(removeProduct(id));
+};
+
 const productReducer = (state = {}, action) => {
   let newState = {};
   switch (action.type) {
@@ -46,6 +61,10 @@ const productReducer = (state = {}, action) => {
     case ADD_ONE_PRODUCT:
       newState = { ...state };
       newState[action.payload.id] = action.payload;
+      return newState;
+    case REMOVE_ONE_PRODUCT:
+      newState = { ...state };
+      delete newState[action.id];
       return newState;
     default:
       return state;
