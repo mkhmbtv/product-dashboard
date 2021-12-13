@@ -50,6 +50,19 @@ export const deleteProduct = (id) => async (dispatch) => {
   if (res.ok) dispatch(removeProduct(id));
 };
 
+export const updateProduct = (product) => async (dispatch) => {
+  const res = await fetch(`/api/products/${product.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(product),
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(addOneProduct(data.product));
+  }
+};
+
 const productReducer = (state = {}, action) => {
   let newState = {};
   switch (action.type) {
